@@ -1,0 +1,27 @@
+#ANOVA
+ library(readxl)
+ SampleData <- read_excel("LinuxStuff/R/Testing ANOVA/Sample.xlsx")
+ View(SampleData)                                                                                                     
+ anova.data<-aov(Month~Mass, SampleData)
+ anova.data=aov(Mass~Month,data=SampleData)
+ summary(anova.data)
+
+#Linear Regression
+library(readxl)
+BirdRegressionData <- read_excel("LinuxStuff/R/RegressionTest/BirdRegressionData.xlsx")
+#View(BirdRegressionData) 
+y=BirdRegressionData$`Wing Length`
+x=BirdRegressionData$`Bird Age`
+relation<-lm(y~x)
+#print(relation)
+#print(summary(relation))
+png(file = "BirdWingRegression.png")
+plot(y,x,col="green", main="Wing Length vs Age", 
+    abline(lm(x~y)), cex=1.3,pch=16, xlab="Age/days", ylab="Wing length/cm",)
+dev.off()
+p=data.frame(x=4)
+#predict(relation,p)
+rand<-sample(1:50,3)
+
+
+
