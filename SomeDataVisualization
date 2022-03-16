@@ -1,6 +1,5 @@
 Dataset <- read_excel("School/ZOOL3408 - Sustainable Fisheries/Labs/Lab 2/ZOOL3408 Prac# 2_2022 Data Set (Autosaved).xlsx")
-library(tidyverse)
-library(ggplot2)
+library(tidyverse) #ggplot2 might be in tidyverse, along with diplyr
 library(ggpubr)
 
 Getting the data ready- should have checked for N/As but oh well
@@ -20,7 +19,6 @@ p<-ggplot(data = DS2, mapping = aes(
          x = Length, y = Weight))+
 geom_point()
 print(p)
-
 
 t<-DS2 %>% group_by(Common.Name) %>% tally()
 p1<-ggplot(data=t, mapping = aes(x=Common.Name, y=n))+
