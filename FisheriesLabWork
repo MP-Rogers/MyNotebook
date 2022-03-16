@@ -1,0 +1,26 @@
+t3<-  d3 %>% group_by(d3$`Common Name`,d3$`Weight (g)`,d3$`Length (cm )`) %>% tally()
+write.csv(t,"Port Royal Seine 1.csv")
+getwd()
+
+test.plot<-hist(sj$`Length (cm )`,main = "Length of Silver Jenny at Port Royal",xlab = "Length(cm)")
+
+
+test.plot2<-histogram(sj$`Length (cm )`, xlab = "Length(cm)",main = "Length of Silver Jenny in First Catch at Port Royal", breaks = bin)
+test.plot2
+
+CalcBins<-function(dataset){
+  n<-nrow(dataset)
+  bins<-log(n, base = 2)
+  bins<-bins+1
+  bins<-round(bins)
+  return(bins)
+}
+
+Create.Chart<-function(dataset, bins,chart.title){
+  library(lattice)
+  test.plot<-histogram(dataset$`Length (cm )`, main = chart.title, xlab = "length(cm)",type ="percent", breaks = bins)
+  return(test.plot)
+}
+
+
+ t<-DS2 %>% group_by(Name) %>% summarize(mean(Weight))
