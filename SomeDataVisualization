@@ -1,0 +1,39 @@
+Dataset <- read_excel("School/ZOOL3408 - Sustainable Fisheries/Labs/Lab 2/ZOOL3408 Prac# 2_2022 Data Set (Autosaved).xlsx")
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+
+Getting the data ready- should have checked for N/As but oh well
+#DS<-Dataset[c(1:7)]
+#DS<-DS[-c(169:171),]
+#DS2<-DS #working so i dont mess up actual sheet
+#names[1]<-"Common.Name"
+#names[4]<-"Weight"
+#names[5]<-"Length"
+#colnames(DS2)<-names
+#DS.summarized<- DS2  %>% group_by(Common.Name,Weight,Length) %>% tally()
+
+#ggplot(DS2)+
+#  + geom_point(mapping = aes(x=Length, y=Weight, color = Common.Name))
+
+p<-ggplot(data = DS2, mapping = aes(
+         x = Length, y = Weight))+
+geom_point()
+print(p)
+
+
+t<-DS2 %>% group_by(Common.Name) %>% tally()
+p1<-ggplot(data=t, mapping = aes(x=Common.Name, y=n))+
+  geom_bar(stat = "identity", fill = "blue")+
+  geom_text(aes(label=n, vjust=-0.3))
+print(p1 + coord_flip())
+
+p<-ggplot(data= DS.no.outlier, mapping = aes(x = Weight))+
+  geom_histogram(fill= "red",binwidth = 1)
+print(p)
+
+SJ<-subset(DS2, Common.Name=="Silver Jenny")
+p<-ggplot(data=SJ, mapping= aes(x = Length))+
+  geom_histogram(binwidth = 0.5, colour="black", fill="red")+
+  ggtitle("Length-Frequency Plot of Silver Jenny, Catch 1 FR Lagoon")
+print(p)
