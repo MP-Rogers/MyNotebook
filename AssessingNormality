@@ -1,0 +1,4 @@
+>library(ggpubr)
+> ggdensity(data= setosa.petal.length, main = "Density plot of Setosa petal lengths", xlab = "petal length")
+>shapiro.test(setosa.petal.length)
+# if p > 0.05, normality holds
