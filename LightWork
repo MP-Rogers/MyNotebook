@@ -1,0 +1,25 @@
+library(readxl)
+library(tidyverse)
+library(varhandle)
+#rainfall <- read_excel("Programming/R/Learning and Practicing/Analyze Rainfall Data/raain.xlsx")
+#View(rainfall)
+#rain.cleaning<-rainfall
+#View(rain.cleaning)
+#clean data and flip table
+#cleaning<-rain.cleaning[-c(14),]
+# cleaning<-cleaning[-c(1)]
+# View(cleaning)
+# yrs<-cleaning[1,]
+# cleaning<-cleaning[-c(1),]
+# cleaning<-as.data.frame(t(cleaning))
+# row.names(cleaning)<-yrs
+# colnames(cleaning)<-month.name
+#rain<-sapply(cleaning, as.numeric)
+#monthly.means<-colMeans(rain)
+ #rbind(cleaning, monthly.means)
+#rain<-rbind(rain, monthly.means)
+
+p<-ggplot(data = s, ,mapping = aes(x=month.name,y=monthly.means))+
+  geom_bar(stat="identity", fill="blue")+
+  ggtitle("Bar chart showing mean monthly rainfall in Jamaica btw 1996 and 2018")
+print(p+ coord_flip())
