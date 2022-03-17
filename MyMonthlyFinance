@@ -1,16 +1,19 @@
 library(readxl)
-data <- read_excel("Programming/R/Learning and Practicing/Analyze my Finance 010322/Personal Finances.xlsx")
+data <- read_excel("Programming/R/Learning and Practicing/Analyze my Finance 010322/Personal Finances.xlsx")#load the excel file with my monthly spending
 View(data)
 library(tidyverse)
+
 p<-ggplot(data, mapping= aes(x=Category, y = Amount))+
   geom_bar(stat="identity", fill = "red" )+
   ggtitle("Sum of Matts Spending by Catgeory")
-print(p)
+print(p)# displayed total spending by category across all months
 s<-data %>% group_by(Category, Description, Amount) %>%tally()
-View(s)
+View(s)#shows how many of each identical type of purchase i meade over recorded period, with amount per pruchase and description
+
+
 d<-data
 d$Date<-as.Date(data$Date)
-library(lubridate)
+library(lubridate)#apparently this is how you work dates
 ds<-d %>% group_by(month = floor_date(Date, "month")) %>% summarise(t = sum(Amount))
 oct<-subset(d, month(d$Date)==10)
 p2<-ggplot(data =ds, mapping= aes(x= month, y=t))+
