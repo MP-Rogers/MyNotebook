@@ -1,0 +1,34 @@
+library(readxl)
+data <- read_excel("Programming/R/Learning and Practicing/Analyze my Finance 010322/Personal Finances.xlsx")
+View(data)
+library(tidyverse)
+p<-ggplot(data, mapping= aes(x=Category, y = Amount))+
+  geom_bar(stat="identity", fill = "red" )+
+  ggtitle("Sum of Matts Spending by Catgeory")
+print(p)
+s<-data %>% group_by(Category, Description, Amount) %>%tally()
+View(s)
+d<-data
+d$Date<-as.Date(data$Date)
+library(lubridate)
+ds<-d %>% group_by(month = floor_date(Date, "month")) %>% summarise(t = sum(Amount))
+oct<-subset(d, month(d$Date)==10)
+p2<-ggplot(data =ds, mapping= aes(x= month, y=t))+
+  geom_bar(stat= "identity", fill="purple")+
+  ggtitle("Matts Monthly Spending")
+print(p2 + coord_flip())
+p<-ggplot(oct, mapping=aes(x=Category,y=Amount))+
+  geom_bar(stat="identity", fill="green")+
+  ggtitle("Matts October Spending")
+print(p)
+
+
+library(ggpubr)
+x<-ggdensity(data=feb$Amount, fill="green", main="Is my feb spending Normal")
+no.bins<-length(data$Amount)
+no.bins<-round(x=sqrt(no.bins),0)
+
+c<-ggplot(data, mapping=aes(y=Amount))+
+  geom_histogram(binwidth = 600, fill="red",color="black")+
+  ggtitle("Frequency Histpgram of my Spending")
+print(c+ coord_flip())
