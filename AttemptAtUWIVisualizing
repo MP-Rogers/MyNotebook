@@ -1,0 +1,23 @@
+library(tidyverse)
+library(lubridate)
+data <- read.csv("C:/Users/mparo/Downloads/lab07_data_IBM.csv")
+d<-data
+#View(d)
+d$date<-as.Date(d$date)
+
+
+#plot closing proce against date
+p<-ggplot(d, mapping=aes(x = date, y= close))+
+  geom_point(color = "blue")+
+  geom_smooth()+
+  ggtitle("Date Plot of Closing Price")
+print(p)
+
+
+#line plot of % price change
+p<-ggplot(d, mapping = aes(x=date, y=changePercent))+
+  geom_line(colour="red")+
+  geom_hline(yintercept = 0, linetype="dashed")+
+  ggtitle("Line plot of % change in price")
+print(p)
+
