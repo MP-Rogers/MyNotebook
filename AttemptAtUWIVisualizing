@@ -21,3 +21,10 @@ p<-ggplot(d, mapping = aes(x=date, y=changePercent))+
   ggtitle("Line plot of % change in price")
 print(p)
 
+#histogram on volume traded
+p<-p<-ggplot(d, mapping=aes(x=volume))+
+  geom_histogram(fill="red", colour="black")+
+  ggtitle("Volumes Traded")
+print(p)
+
+
