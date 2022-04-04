@@ -27,4 +27,15 @@ p<-p<-ggplot(d, mapping=aes(x=volume))+
   ggtitle("Volumes Traded")
 print(p)
 
+#Attempt at a time series
+t<-ts(d$open, start = decimal_date(ymd("2018-04-01")),frequency = 365.25)
+april.o<- d %>% filter(date >= as_date("2018-04-01") & date <= as_date("2018-04-30"))
+p<-ggplot(april.o, mapping=aes(x=date, y=open))+
+  geom_line(colour="green")
+print(p)
 
+#attempt at time series 2
+april.c<- d %>% filter(date >=as_date("2018-04-01") & date <= as_date("2018-04-30"))
+p<-ggplot(april.c, mapping=aes(x=date, y=close))+
+  geom_line(colour="red")
+print(p)
