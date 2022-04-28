@@ -1,0 +1,9 @@
+install.packages("remotes")
+remotes::install_github("robbriers/kites")
+
+library(readxl)
+data <- read_excel("School/BIOL3409 - Coral Reefs/Labs/Lab 2/summary.xlsx",  sheet = "Sheet2")
+library(kites)
+s<-as.data.frame(data)
+p<-plot_kite(s,min_abund=0, xlabtext = "Reef Zones")
+print (p)
