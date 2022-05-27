@@ -1,0 +1,24 @@
+library(tidyverse)
+new.var<-starwars %>% select(name, height, mass, sex) %>% na.omit() %>% filter(sex %in% c("none", "hermaphroditic"))
+new.var<-new.var %>% mutate(BMI = mass/(height/100)^2)
+new.var$BMI<-round(new.var$BMI, 2)
+p<-ggplot(new.var, mapping=aes(y=height,x = height, color = sex))+
+  geom_point()+
+  ggtitle("Heights of starwars characters of weirder sex")
+print(p)
+
+library(tidyverse)
+new.var<-starwars %>% select(name, height, mass, sex) %>% na.omit() %>% filter(sex %in% c("male", "female"))
+new.var<-new.var %>% mutate(BMI = mass/(height/100)^2)
+new.var$BMI<-round(new.var$BMI, 2)
+p<-ggplot(new.var, mapping=aes(y=height,x = height, color = sex))+
+  geom_point()+
+  ggtitle("Heights of starwars characters of both sexes")
+print(p)
+new.var <-new.var %>% mutate(sex= recode(sex, male="M", female="F")) %>% mutate(Fat= BMI>22, Fat=if_else(Fat==TRUE, "Fat", "Not Fat"))
+
+
+sw1<-starwars %>% select(name, gender, hair_color, height) %>% filter(!complete.cases(.)) %>% drop_na(height)
+sw2<-starwars %>% select(name, gender, hair_color, height) %>% filter(!complete.cases(.)) %>% mutate(hair_color = replace_na(hair_color, "none"))
+
+Dataset %>% distinct() #deals with duplicates
