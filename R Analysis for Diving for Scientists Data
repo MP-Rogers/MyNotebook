@@ -1,0 +1,54 @@
+Data.Prep<-function(D){
+  library(tidyverse)
+  D<-D[,c(1:5)]
+  n<-D[1,]
+  n[1]<-"Species"
+  n[2]<-"Isolates"
+  colnames(D)<-n
+  D<-D[-1,]
+  #print(paste("Cleaned"))
+  D$Height<-as.double(D$Height)
+  D$Length<-as.double(D$Length)
+  D$Width<-as.double(D$Width)
+  return(D)
+}
+
+Reef.Analysis<-function(D,reef.name){
+D<-D %>% mutate(Area = Length * Width)
+D1<-D %>% group_by(Species) %>% tally()
+
+#View(D1)
+title<-paste("Coral Assemblage at ", reef.name)
+p<-ggplot(data = D1, mapping=aes(x=Species, y=n))+
+  geom_bar(stat = "identity", fill= "Blue")+
+  ggtitle(title)
+print(p + coord_flip())
+
+
+D2<-D
+D2 <- D2 %>% mutate(Area = Length * Width)
+t <- D2 %>% group_by(Species) %>% summarize(mean(Area))
+
+title<-paste( "mean areas at ", reef.name)
+colnames(t)<-c("Species", "Area")
+#View(t)
+p<-ggplot(data = t, mapping = aes(x=Species, y=Area))+
+  geom_bar(stat = "identity", fill = "Red")+
+  ggtitle(title)
+print(p)
+}
+
+
+
+library(readxl)
+#Dancing_Lady <- read_excel("School/Divers/Diving Data.xlsx",  sheet = "Dancing Lady")
+#D1<-Data.Prep(Dancing_Lady)
+#Reef.Analysis(D1, "Dancing Lady")
+DB <- read_excel("School/Divers/Diving Data.xlsx",   sheet = "Corrected Dairy Bull")
+#D1 <-Data.Prep(DB)
+D1<- DB[,c(1:5)]
+n<-colnames(DB)
+n[1]<-"Species"
+n[2]<-"Isolates"
+colnames(D1)<-n
+Reef.Analysis(D1, "Dariy Bull")
