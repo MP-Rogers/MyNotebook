@@ -1,0 +1,40 @@
+data.prep<-function(Finance){ #Function to prepare the data for analysis, trims off columns, converts category of spending to factor var and returns data frame
+  PF<-Finance[,c(1:4)]
+  PF$Date<-ymd(PF$Date)
+  classes<-c("Investments", "Mandatories", "Flexible")
+  PF$Category<-as.factor(PF$Category)
+  levels(PF$Category)<-classes
+  return(PF)  
+}
+
+data.analysis<-function(d){ # uses d2 for visualization leaving data frame unchanged,  
+  d2<-d
+  d2<-d2 %>% select(Category, Amount) %>% group_by(Category) %>% tally() #shows total transactions per category,
+  p<-ggplot(d2, mapping<-aes(x=Category,y=n, fill=Category))+
+   geom_bar(stat="identity")+
+   ggtitle("Transactions by Amount")
+  print(p)
+  d2<-d %>% group_by(Category) %>% summarise(Amount = sum(Amount)) #shows total transactions per category,
+  p<-ggplot(d2,mapping = aes(x=Category, y=Amount, fill=Category))+
+    geom_bar(stat="identity")+
+    ggtitle("Spending by Category")
+  print(p)
+  d2<- d %>% group_by(month=floor_date(Date, "month"), Category) %>% summarise(t=sum(Amount))
+  p<-ggplot(d2, mapping = aes(x=month,y=t, fill=Category))+ #spending each both broken into categories
+    geom_bar(stat="identity")+
+    ggtitle("Spending by month")
+  print(p)
+}
+
+
+library(tidyverse)
+library(lubridate)
+library(readxl)
+Finances <- read_excel("Investing and Finance/Personal Finance/Personal Finances.xlsx")
+dataset<-data.prep(Finances)
+data.analysis(dataset)
+
+____________________________________________________________________________
+Other ideas:
+    Data prep could have something to check for incomplete cases
+    
